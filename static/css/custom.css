@@ -1,0 +1,15 @@
+/* CSS لرسائل الخطأ */
+.error-message {
+    color: red;
+}
+.error-message i {
+    margin-right: 5px; /* توضيح فرق الخطأ */
+}
+
+/* CSS لرسائل النجاح */
+.success-message {
+    color: green;
+}
+.success-message i {
+    margin-right: 5px; /* توضيح فرق النجاح */
+}

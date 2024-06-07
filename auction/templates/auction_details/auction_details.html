@@ -1,0 +1,89 @@
+{% extends 'index/index.html' %}
+
+{% block Page %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auction Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+
+        }
+        .container2 {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .auction-details {
+            border-top: 2px solid #ccc;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+        .product-info {
+            margin-bottom: 20px;
+        }
+        .product-info img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <br>
+    <div class="container2">
+        <h1>Auction Details</h1>
+        <div class="product-info">
+            <h2>{{ auction.product.name }}</h2>
+            <img src="{{ auction.product.main_image.url }}" alt="{{ auction.product.name }}">
+            <p>Description: {{ auction.product.description }}</p>
+            <b style="color: rgb(9, 219, 149);">Starting Price: ${{ auction.product.starting_price }}</b>
+        </div>
+        <div class="auction-details">
+            <h2>Auction Information</h2>
+            <p><i class="fas fa-calendar"></i> Start Date: {{ auction.auction_start_date }}</p>
+            <p><i class="fas fa-calendar"></i> End Date: {{ auction.auction_end_date }}</p>
+            {% if auction.current_price %}
+                <p><i class="fas fa-money-bill"></i> Current Price: ${{ auction.current_price }}</p>
+            {% else %}
+                <p><i class="fas fa-money-bill"></i> Starting Price: ${{ auction.product.starting_price }}</p>
+            {% endif %}
+            <p><i class="fas fa-info-circle"></i> Status: {% if auction.auction_status %}Active{% else %}Inactive{% endif %}</p>
+            <p><i class="fas fa-chart-line"></i> Minimum Bid Increment: ${{ auction.minimum_bid_increment }}</p>
+        </div>
+        <a href="{% url 'auction' auction_id=auction.id %}" class="btn">Enter Auction</a>
+    </div>
+    <br>
+    <br>    
+</body>
+</html>
+{% endblock Page %}
+    
+

@@ -1,0 +1,81 @@
+{% extends 'index/index.html' %}
+{%load static %}
+{% block Page %}
+{% if auctions %}
+<br> <br>
+<div class="wap-listing-tabs ltabs-items-container products-list grid">
+    <div class="ltabs-items ltabs-items-selected items-category-72" data-total="4">
+        <div class="ltabs-items-inner ltabs-slider">
+
+            {% for auction in auctions %}
+            <div class="ltabs-item">
+                <div class="item-inner product-layout transition product-grid">
+                    <div class="product-item-container">
+                        <div class="left-block">
+                            <div class="product-image-container second_img">
+                                <a href="{% url 'auction_details' auction=auction.id %}" target="_self"
+                                    title="{{auction.product.name}}">
+                                    <img width="150px" src="{{auction.product.main_image.url}}" class=" img-responsive"
+                                        alt="{{auction.product.name}}">
+
+                                </a>
+                                <div class="">
+                                    {% if auction.auction_status %}
+                                    <span class="text-success">
+                                        <i class=""></i> Active
+                                    </span>
+                                    {% else %}
+                                    <span class="text-danger">
+                                        <i class="fas fa-times-circle"></i> Inactive
+                                    </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="right-block">
+                            <div class="caption">
+
+                                <h4><a href="{% url 'auction_details' auction=auction.id %}" title="Pastrami bacon"
+                                        target="_self">{{auction.product.name}}</a></h4>
+                                <div class="price">current price
+                                    ${{auction.current_price}}</div>
+
+                            </div>
+                            {% if auction.product.user.is_staff %}
+                            <div class=""> <span class="price product-price">by Admin
+                                </span>
+                            </div>
+                            {% else %}
+                            <div class=""> <span class="price product-price">by
+                                    {{auction.product.user.customer.first_name}}
+                                    {{auction.product.user.customer.last_name}}</span>
+                            </div>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+
+
+        </div>
+    </div>
+
+</div>
+
+{% else %}
+
+<div style="display: flex; justify-items: center; justify-content: center; margin-top: 30vh; margin-bottom: 30vh;">
+    <h4 style="color: red;">There is no auctions for This Category!</h4>
+</div>
+{% endif %}
+
+
+
+
+
+{% endblock Page %}

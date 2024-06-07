@@ -1,0 +1,211 @@
+{% extends 'index/index.html' %}
+
+{% block Page %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Entry Form</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+
+
+        }
+
+        .wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .container2 {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .container2 h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .form-group input[type="file"] {
+            padding: 5px;
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            border-color: #80bdff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(128, 189, 255, 0.5);
+        }
+
+        .form-group .error {
+            color: red;
+            font-size: 14px;
+        }
+
+        .form-group img {
+            max-width: 100px;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+
+        .brn2 {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #f4a137;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .brn2:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <div class="container2">
+            <h2>Product Entry Form</h2>
+            <form id="productForm" method="post" enctype="multipart/form-data" action="{% url 'newproduct' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">Product Name</label>
+                    <input type="text" id="name" name="name" required>
+                    <div class="error" id="nameError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" rows="4" required></textarea>
+                    <div class="error" id="descriptionError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="starting_price">Starting Price</label>
+                    <input type="number" step="0.01" id="starting_price" name="starting_price" required>
+                    <div class="error" id="startingPriceError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="minimum_bid_increment">Minimum Bid Increment</label>
+                    <input type="number" step="0.01" id="minimum_bid_increment" name="minimum_bid_increment" required>
+                    <div class="error" id="minimum_bid_incrementError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="start_date">Start  date</label>
+                    <input type="datetime-local" id="starting_date" name="starting_date" required>
+                    <div class="error" id="start_dateError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="NumberOfDays">Number Of Days</label>
+                    <input type="number" id="NumberOfDays" name="NumberOfDays" min="0" required>
+                    <div class="error" id="NumberOfDaysError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="main_image">Main Image</label>
+                    <input type="file" id="main_image" name="main_image" accept="image/*" required>
+                    <div class="error" id="mainImageError"></div>
+                    <img id="mainImagePreview" src="#" alt="Main Image Preview" style="display:none;">
+                </div>
+                <div class="form-group">
+                    <label for="product_group">Product Group</label>
+                    <select id="product_group" name="product_group" required>
+                        <option value="" disabled selected>Select a category</option>
+                        {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="error" id="productGroupError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="additional_images">Additional Images</label>
+                    <input type="file" id="additional_images" name="additional_images" accept="image/*" multiple>
+                    <div class="error" id="additionalImagesError"></div>
+                    <div id="additionalImagesPreview"></div>
+                </div>
+                <button type="submit" class="brn2">Submit</button>
+            </form>
+            <h4 style="color: red;">Please wait until the admin is accept</h4>
+        </div>
+
+    </div>
+
+    <script>
+        document.getElementById('main_image').onchange = function (event) {
+            const [file] = event.target.files;
+            if (file) {
+                document.getElementById('mainImagePreview').src = URL.createObjectURL(file);
+                document.getElementById('mainImagePreview').style.display = 'block';
+            }
+        };
+
+        document.getElementById('additional_images').onchange = function (event) {
+            const files = event.target.files;
+            const previewContainer = document.getElementById('additionalImagesPreview');
+            previewContainer.innerHTML = '';
+            for (let i = 0; i < files.length; i++) {
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(files[i]);
+                img.style.maxWidth = '100px';
+                img.style.marginRight = '10px';
+                img.style.marginTop = '10px';
+                previewContainer.appendChild(img);
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Prevent negative values for number inputs
+            document.querySelectorAll('input[type="number"]').forEach(function(input) {
+                input.addEventListener('input', function() {
+                    if (this.value < 1) {
+                        this.value = 1;
+                    }
+                });
+            });
+               // Prevent past dates for datetime-local input
+            const startDateInput = document.getElementById('starting_date');
+            const now = new Date();
+            const formattedDate = now.toISOString().slice(0, 16);
+            startDateInput.setAttribute('min', formattedDate);
+        });
+
+
+    </script>
+</body>
+</html>
+
+  
+{% endblock Page %}
+    

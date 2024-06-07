@@ -1,0 +1,374 @@
+{% extends 'index/index.html' %}
+{% load static %}
+
+{% block Page %}
+
+<!-- Main Container  -->
+<div class="main-container">
+    <div id="content">
+        <div class="container">
+            <div class="row box-content1">
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 col-left">
+                    <!-- Secondary menu -->
+                    <div class="responsive so-megamenu megamenu-style-dev">
+                        <div class="so-vertical-menu ">
+                            <nav class="navbar-default">
+
+
+
+
+                        </div>
+                        </nav>
+                    </div>
+                </div>
+                <!-- // end Secondary menu -->
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-right">
+                <div class="module sohomepage-slider ">
+                    <div class="yt-content-slider" data-rtl="yes" data-autoplay="no" data-autoheight="no" data-delay="4"
+                        data-speed="0.6" data-margin="0" data-items_column0="1" data-items_column1="1"
+                        data-items_column2="1" data-items_column3="1" data-items_column4="1" data-arrows="no"
+                        data-pagination="yes" data-lazyload="yes" data-loop="no" data-hoverpause="yes">
+                        <div class="yt-content-slide">
+                            <a href="#"><img src="{% static 'image/catalog/slideshow/home3/slide-1.jpg' %}"
+                                    alt="slider1" class="img-responsive"></a>
+                        </div>
+                        <div class="yt-content-slide">
+                            <a href="#"><img src="{% static 'image/catalog/slideshow/home3/slide-2.jpg' %}"
+                                    alt="slider2" class="img-responsive"></a>
+                        </div>
+                        <div class="yt-content-slide">
+                            <a href="#"><img src="{% static 'image/catalog/slideshow/home3/slide-3.jpg'%}" alt="slider3"
+                                    class="img-responsive"></a>
+                        </div>
+                    </div>
+
+                    <div class="loadeding"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="Categories">
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="module so-listing-tabs-ltr listingtab-layout3">
+                    <h3 class="modtitle"><span>Recently Auctions Live</span> </h3>
+                    <div class="modcontent">
+                        <div id="so_listing_tabs_2" class="so-listing-tabs first-load">
+                            <div class="loadeding"></div>
+                            <div class="ltabs-wrap">
+                                <div class="ltabs-tabs-container" data-rtl="yes" data-delay="300" data-duration="600"
+                                    data-effect="starwars" data-ajaxurl="" data-type_source="0" data-lg="2" data-md="2"
+                                    data-sm="2" data-xs="1" data-margin="0">
+                                    <!--Begin Tabs-->
+                                    <div class="ltabs-tabs-wrap">
+                                        <span class="ltabs-tab-selected">Bathroom</span> <span
+                                            class="ltabs-tab-arrow">▼</span>
+                                        <div class="item-sub-cat">
+                                            <ul class="ltabs-tabs cf">
+
+                                                {% for category in categories %}
+
+                                                <li class="ltabs-tab "> <span class="ltabs-tab-label"> <a
+                                                            href="{% url 'Home' category=category.id %}#Categories">{{category.name}}</a></span>
+                                                </li>
+                                                {% endfor %}
+
+
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- End Tabs-->
+                                </div>
+
+                                <div class="ltabs-items-container products-list grid">
+                                    <!--Begin Items-->
+
+                                    {% for auction in latest_active_auctions %}
+                                    <div class="ltabs-items ltabs-items-selected items-category-31" data-total="31">
+                                        <div class="ltabs-items-inner ltabs-slider">
+                                            <!-- item listing tab -->
+                                            <div class="ltabs-item first-line">
+                                                <div class="item-inner product-layout transition">
+                                                    <div class="product-item-container">
+                                                        <div class="left-block">
+                                                            <div class="product-image-container">
+                                                                <a href="{% url 'auction_details' auction=auction.id %}"
+                                                                    target="_self" title="Ninim spareri magna aliqua">
+                                                                    <img width="200px" height="200px"
+                                                                        src="{{auction.product.main_image.url}}"
+                                                                        class="img-1 img-responsive"
+                                                                        alt="Ninim spareri magna aliqua">
+                                                                </a>
+                                                            </div>
+                                                            <!--quickview-->
+                                                            <!--end quickview-->
+                                                        </div>
+                                                        <div class="right-block">
+                                                            <div class="caption">
+                                                                <h4><a href="{% url 'auction_details' auction=auction.id %}"
+                                                                        title="Ninim spareri magna aliqua"
+                                                                        target="_self">{{auction.product.name}}</a></h4>
+                                                                <div class="price">Starting Price</div>
+                                                                <div class="price">${{auction.product.starting_price}}
+                                                                </div>
+                                                            </div>
+                                                            <div class="button-group">
+                                                                {% if auction.auction_status %}
+                                                                <a type="button" class="addToCart btn-button"
+                                                                    href="{% url 'auction_details' auction=auction.id %}"
+                                                                    title="Entry the Auction">
+                                                                    <i class="fa fa-shopping-basket"></i>
+                                                                    <span>Entry the Auction</span>
+                                                                </a>
+                                                                <span style="color: green;"
+                                                                    class="auction-status active">Active</span>
+                                                                {% else %}
+                                                                <span style="color:red"
+                                                                    class="auction-status inactive">Inactive</span>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- end item listing tab -->
+                                        </div>
+                                    </div>
+
+                                    {% endfor %}
+
+
+
+
+                                    <!--End Items-->
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="banners banners1">
+            <div class="banner">
+                <a href="#">
+                    <img src="{% static 'image/catalog/banners/id3-banner1.jpg'%}" alt="image">
+                </a>
+            </div>
+        </div>
+
+
+
+        <div class="module listingtab-icons">
+            <div class="modcontent">
+                <div id="so_listing_tabs_1" class="so-listing-tabs first-load">
+                    <div class="loadeding"></div>
+                    <div class="ltabs-wrap">
+                        <div class="ltabs-tabs-container" data-rtl="yes" data-delay="300" data-duration="600"
+                            data-effect="starwars" data-ajaxurl="" data-type_source="0" data-lg="4" data-md="4"
+                            data-sm="2" data-xs="1" data-margin="30">
+                            <!--Begin Tabs-->
+
+                            <div class="ltabs-tabs-wrap">
+                                <span class='ltabs-tab-selected'></span>
+                                <span class="ltabs-tab-arrow">▼</span>
+                                <h1>All Categories</h1>
+                                <ul class="ltabs-tabs cf list-sub-cat font-title">
+
+                                    {% for category in categories %}
+                                    <a href="{% url 'auction_by_category' category_id=category %}">
+                                        <li class="ltabs-tab tab-sel tab-loaded" data-category-id="72"
+                                            data-active-content=".items-category-72">
+                                            <div class="ltabs-tab-img">
+                                                <img height="70px" src="{{category.main_Icon.url}}" title="Cellphone"
+                                                    alt="Cellphone" />
+                                            </div>
+                                            <span class="ltabs-tab-label">{{category.name}}</span>
+                                        </li>
+                                    </a>
+
+                                    {% endfor %}
+
+
+
+
+                                </ul>
+                            </div>
+                            <!-- End Tabs-->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="banners banners3">
+            <div class="banner">
+                <a href="#">
+                    <img src="{% static 'image/catalog/banners/id3-banner4.jpg'%}" alt="image">
+                </a>
+            </div>
+        </div>
+        <div style="display: flex; justify-content: center; justify-items: center; margin-bottom: 2%;">
+            <h1>Auctions by Customers</h1>
+        </div>
+        <!-- products -->
+        <div class="row">
+
+
+
+            {% for category,Auctions in latest_customers_active_auctions.items %}
+
+
+
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <div class="module product-simple">
+                    <h3 class="modtitle">
+                        <a href="{% url 'auctions_by_customers' %}">
+                            <span> {{category}} </span>
+                        </a>
+
+                    </h3>
+                    <div class="modcontent">
+                        <div class="so-extraslider">
+                            <!-- Begin extraslider-inner -->
+                            <div class="yt-content-slider extraslider-inner products-list" data-rtl="yes"
+                                data-autoplay="no" data-delay="4" data-speed="0.6" data-margin="0"
+                                data-items_column0="1" data-items_column1="1" data-items_column2="1"
+                                data-items_column3="1" data-items_column4="1" data-arrows="yes" data-pagination="no"
+                                data-lazyload="yes" data-loop="no">
+
+                                {% for auction in Auctions %}
+                                {% if forloop.counter <= 3 %} 
+                                <div class="item ">
+                                    <div class="product-layout item-inner style1 ">
+                                        <div class="item-image">
+                                            <div class="item-img-info">
+                                                <a href="#" target="_self" title="Ercitation incididunt ">
+                                                    <img height="100px " width="90px"
+                                                        src=" {{auction.product.main_image.url}} "
+                                                        alt="Ercitation incididunt">
+                                                </a>
+                                            </div>
+
+                                        </div>
+                                        <div class="item-info">
+                                            <div class="item-title">
+                                                <a href="#" target="_self"
+                                                    title="Ercitation incididunt">{{auction.product.name}}</a>
+                                            </div>
+                                            <div class=""> <span class="price product-price">by
+                                                    {{auction.product.user.customer.first_name}}
+                                                    {{auction.product.user.customer.last_name}}</span>
+                                            </div>
+
+                                            <div class="content_price price"> <span class="price product-price"> $
+                                                    {{auction.current_price}}</span>
+                                            </div>
+                                            <div class="">
+                                                {% if auction.auction_status %}
+                                                <span class="text-success">
+                                                    <i class=""></i> Active
+                                                </span>
+                                                {% else %}
+                                                <span class="text-danger">
+                                                    <i class="fas fa-times-circle"></i> Inactive
+                                                </span>
+                                                {% endif %}
+                                            </div>
+
+                                            <div class="item-content">
+                                                <div class="button-group">
+                                                    <a href="{% url 'auction_details' auction=auction %}" type="button"
+                                                        class="addToCart btn-button" title="Entry the Auction"><i
+                                                            class="fa fa-shopping-basket"></i>
+                                                        <span>Entry the Auction </span>
+                                                    </a>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                            </div>
+                            {% else %}
+                            <div class="item ">
+                                <div class="product-layout item-inner style1 ">
+                                    <div class="item-image">
+                                        <div class="item-img-info">
+                                            <a href="#" target="_self" title="Ercitation incididunt ">
+                                                <img height="100px " width="90px"
+                                                    src=" {{auction.product.main_image.url}} "
+                                                    alt="Ercitation incididunt">
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                    <div class="item-info">
+                                        <div class="item-title">
+                                            <a href="#" target="_self"
+                                                title="Ercitation incididunt">{{auction.product.name}}</a>
+                                        </div>
+                                        <div class=""> <span class="price product-price">by
+                                                {{auction.product.user.customer.first_name}}
+                                                {{auction.product.user.customer.last_name}}</span>
+                                        </div>
+
+                                        <div class="content_price price"> <span class="price product-price"> $
+                                                {{auction.current_price}}</span>
+                                        </div>
+                                        <div class="">
+                                            {% if auction.auction_status %}
+                                            <span class="text-success">
+                                                <i class=""></i> Active
+                                            </span>
+                                            {% else %}
+                                            <span class="text-danger">
+                                                <i class="fas fa-times-circle"></i> Inactive
+                                            </span>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="item-content">
+                                            <div class="button-group">
+                                                <a href="{% url 'auction_details' auction=auction %}" type="button"
+                                                    class="addToCart btn-button" title="Entry the Auction"><i
+                                                        class="fa fa-shopping-basket"></i>
+                                                    <span>Entry the Auction </span>
+                                                </a>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                        </div>
+                            {% endif %}
+
+                            {% endfor %}
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+
+
+    </div>
+</div>
+</div>
+</div>
+<!-- //Main Container -->
+{% endblock Page %}

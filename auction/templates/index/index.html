@@ -1,0 +1,462 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <!-- Basic page needs
+        ============================================ -->
+        <title>Online Auction  </title>
+        <meta charset="utf-8">
+        <meta name="keywords"
+            content="html5 template, best html5 template, best html template, html5 basic template, multipurpose html5 template, multipurpose html template, creative html templates, creative html5 templates" />
+        <meta name="description"
+            content="eMarket is a powerful Multi-purpose HTML5 Template with clean and user friendly design. It is definite a great starter for any eCommerce web project." />
+        <meta name="author" content="Magentech">
+        <meta name="robots" content="index, follow" />
+    
+        <!-- Mobile specific metas
+        ============================================ -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+        <!-- Favicon
+        ============================================ -->
+    
+        <link rel="shortcut icon" type="image/png" href="{% static 'ico/favicon-16x16.png'%}" />
+    
+    
+        <!-- Libs CSS
+        ============================================ -->
+        <link rel="stylesheet" href="{% static 'css/bootstrap/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/font-awesome/css/font-awesome.min.css' %}">
+        <link rel="stylesheet" href="{% static 'js/datetimepicker/bootstrap-datetimepicker.min.css' %}">
+        <link rel="stylesheet" href="{% static 'js/owl-carousel/owl.carousel.css' %}">
+        <link rel="stylesheet" href="{% static 'css/themecss/lib.css' %}">
+        <link rel="stylesheet" href="{% static 'js/jquery-ui/jquery-ui.min.css' %}">
+        <link rel="stylesheet" href="{% static 'js/minicolors/miniColors.css' %}">
+
+        <!-- Theme CSS
+        ============================================ -->
+        <link rel="stylesheet" href="{% static 'css/themecss/so_searchpro.css' %}">
+        <link rel="stylesheet" href="{% static 'css/themecss/so_megamenu.css' %}">
+        <link rel="stylesheet" href="{% static 'css/themecss/so-categories.css' %}">
+        <link rel="stylesheet" href="{% static 'css/themecss/so-listing-tabs.css' %}">
+        <link rel="stylesheet" href="{% static 'css/themecss/so-newletter-popup.css' %}">
+        
+        <link rel="stylesheet" href="{% static 'css/footer/footer3.css' %}">
+        <link rel="stylesheet" href="{% static 'css/header/header3.css' %}">
+        <link rel="stylesheet" href="{% static 'css/home3.css' %}" id="color_scheme">
+        <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+        <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    
+        <!-- Google web fonts
+        ============================================ -->
+        <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,500i,700' rel='stylesheet'
+            type='text/css'>
+        <style type="text/css">
+            body {
+                font-family: 'Roboto', sans-serif
+            }
+        </style>
+    
+    </head>
+<body class="common-home res layout-3">
+    <div id="wrapper" class="wrapper-fluid banners-effect-10">
+                <!-- Header Container  -->
+                <header id="header" class=" typeheader-3">
+                    <!-- Header Top -->
+                    <div class="header-top hidden-compact">
+                        <div class="container">
+                            <div class="row">
+                                <div class="header-top-left  col-lg-6 col-md-5 col-sm-6 col-xs-5">
+                                    <div class="hidden-sm hidden-xs welcome-msg">Welcome to Emarket!</div>
+                                    {% if user.is_authenticated %}
+                                    <div class="signin-w">Hello {{ user.username }} <a class="logout link-lg" href="{% url 'logout' %}">Logout</a></div>
+                                {% else %}
+                                    <div class="signin-w"><a class="logout link-lg" href="{% url 'Login' %}">Login </a> or <a href="{% url 'Register' %}">Register</a></div>
+                                {% endif %}
+                                </div>
+                                <div class="header-top-right collapsed-block col-lg-6 col-md-7 col-sm-6 col-xs-7">
+                                    <div class="telephone hidden-xs hidden-sm hidden-md">
+                                        <ul class="socials">
+                                            <li class="facebook"><a class="_blank" href="https://www.facebook.com/MagenTech"
+                                                    target="_blank"><i class="fa fa-facebook"></i></a>
+                                            </li>
+                                            <li class="twitter"><a class="_blank" href="https://twitter.com/smartaddons"
+                                                    target="_blank"><i class="fa fa-twitter"></i></a>
+                                            </li>
+                                            <li class="google_plus"><a class="_blank"
+                                                    href="https://plus.google.com/u/0/+Smartaddons/posts" target="_blank"><i
+                                                        class="fa fa-google-plus"></i></a>
+                                            </li>
+                                            <li class="pinterest"><a class="_blank"
+                                                    href="https://www.pinterest.com/smartaddons/" target="_blank"><i
+                                                        class="fa fa-pinterest"></i></a>
+                                            </li>
+                                            <li class="youtube"><a class="_blank" href="#" target="_blank"><i
+                                                        class="fa fa-youtube-play"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+        
+                                    <ul class="top-link list-inline lang-curr">
+                                        <li class="currency">
+                                            <div class="btn-group currencies-block">
+                                                <form action="http://demo.smartaddons.com/templates/html/emarket/index.html"
+                                                    method="post" enctype="multipart/form-data" id="currency">
+                                                    <a class="btn btn-link dropdown-toggle" data-toggle="dropdown">
+                                                        <span class="icon icon-credit "></span> Syrian pounds <span
+                                                            class="fa fa-angle-down"></span>
+                                                    </a>
+                                                    
+                                                </form>
+                                            </div>
+                                        </li>
+                                        <li class="language">
+                                            <div class="btn-group languages-block ">
+                                                <form action="http://demo.smartaddons.com/templates/html/emarket/index.html"
+                                                    method="post" enctype="multipart/form-data" id="bt-language">
+                                                    <a class="btn-link dropdown-toggle" data-toggle="dropdown">
+                                                        <img src="{% static 'image/catalog/flags/gb.png' %}" alt="English" title="English">
+                                                        <span class="sm">English</span>
+                                                        <span class="fa fa-angle-down"></span>
+                                                    </a>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a href="index.html"><img class="image_flag"
+                                                                    src="{% static 'image/catalog/flags/gb.png' %} " alt="English"
+                                                                    title="English" /> English </a></li>
+                                                        
+                                                    </ul>
+                                                </form>
+                                            </div>
+        
+                                        </li>
+                                    </ul>
+        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- //Header Top -->
+        
+                    <!-- Header center -->
+                    <div class="header-middle">
+                        <div class="container">
+                            <div class="row">
+                                <!-- Logo -->
+                                <div class="navbar-logo col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                                    <div class="logo"><a href="{% url 'Home' %}"><img src="{% static 'image/catalog/logo3.png' %}" title="Your Store"
+                                                alt="Your Store" /></a></div>
+                                </div>
+                                <!-- //end Logo -->
+                                    <!-- Search -->
+                                    <div class="middle2 col-lg-7 col-md-6">
+                                        <div class="search-header-w">
+                                            <div class="icon-search hidden-lg hidden-md hidden-sm"><i class="fa fa-search"></i>
+                                            </div>
+                                            <div id="sosearchpro" class="sosearchpro-wrapper so-search ">
+                                                <form method="post"
+                                                    action=" {% url 'auction_search' %}">
+                                                    <div id="search0" class="search input-group form-group">
+                                                
+            
+                                                        <input class="autosearch-input form-control" type="text" value="" size="50"
+                                                            autocomplete="off" placeholder="Keyword here..." name="search">
+                                                        <span class="input-group-btn">
+                                                            <button type="submit" class="button-search btn btn-primary"
+                                                                name="submit_search"><i class="fa fa-search"></i></button>
+                                                        </span>
+                                                    </div>
+                                                    <input type="hidden" name="route" value="product/search" />
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- //end Search -->
+                                <div class="middle3 col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                    <ul class="wishlist-comp hidden-sm hidden-xs">
+                                      
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+        
+                        </div>
+                    </div>
+                    <!-- //Header center -->
+        
+                    <!-- Header Bottom -->
+                    <div class="header-bottom hidden-compact">
+                        <div class="container">
+                            <div class="row">
+        
+                                <!-- Main menu -->
+                                <div class="main-menu col-lg-9 col-md-8 col-sm-6 col-xs-5">
+                                    <div class="responsive so-megamenu megamenu-style-dev">
+                                        <nav class="navbar-default">
+                                            <div class=" container-megamenu  horizontal open ">
+                                                <div class="navbar-header">
+                                                    <button type="button" id="show-megamenu" data-toggle="collapse"
+                                                        class="navbar-toggle">
+                                                        <span class="icon-bar"></span>
+                                                        <span class="icon-bar"></span>
+                                                        <span class="icon-bar"></span>
+                                                    </button>
+                                                </div>
+        
+                                                <div class="megamenu-wrapper">
+                                                    <span id="remove-megamenu" class="fa fa-times"></span>
+                                                    <div class="megamenu-pattern">
+                                                        <div class="container-mega">
+                                                            <ul class="megamenu" data-transition="slide"
+                                                                data-animationtime="250">
+                                                                <li class="home ">
+                                                                    <a href="{% url 'Home' %}">Home <b class="caret"></b></a>
+        
+                                                                </li>
+                                                                <!-- <li class="with-sub-menu hover">
+                                                                    <p class="close-menu"></p>
+                                                                    <a href="#" class="clearfix">
+                                                                        <strong>Features</strong>
+                                                                        <b class="caret"></b>
+                                                                    </a>
+        
+                                                                </li> -->
+                                                                <!-- <li class="with-sub-menu hover">
+                                                                    <p class="close-menu"></p>
+                                                                    <a href="#" class="clearfix">
+                                                                        <strong>Pages</strong>
+                                                                        <b class="caret"></b>
+                                                                    </a>
+        
+                                                                </li> -->
+                                                                <li class="with-sub-menu hover">
+                                                                    <p class="close-menu"></p>
+                                                                    <a href="#Categories" class="clearfix">
+                                                                        <strong>Categories</strong>
+                                                                        <b class="caret"></b>
+                                                                    </a>
+                                                                </li>
+        
+                                                                <li class="">
+                                                                    <p class="close-menu"></p>
+                                                                    <a href="#" class="clearfix">
+                                                                        <strong>Accessories</strong>
+        
+                                                                    </a>
+        
+                                                                </li>
+                                                                <!-- <li class="">
+                                                                    <p class="close-menu"></p>
+                                                                    <a href="blog-page.html" class="clearfix">
+                                                                        <strong>Blog</strong>
+                                                                        <span class="label"></span>
+                                                                    </a>
+                                                                </li> -->
+        
+        
+                                                            </ul>
+        
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </nav>
+                                    </div>
+                                </div>
+                                <!-- //end Main menu -->
+        
+        
+                                <div class="bottom2 col-lg-3 col-md-4 col-sm-6 col-xs-7">
+                                    <!--cart-->
+                                    <div class="shopping_cart">
+                                        <div id="cart" class="btn-shopping-cart">
+        
+                                            <a data-loading-text="Loading... " class="btn-group top_cart dropdown-toggle"
+                                                data-toggle="dropdown" aria-expanded="true">
+                                                <div class="shopcart">
+                                                    <span class="icon-c">
+                                                        <i class="fa fa-shopping-bag"></i>
+                                                    </span>
+                                                    <div class="shopcart-inner">
+                                                        <p class="text-shopping-cart">
+                                                            My cart
+                                                        </p>
+        
+                                                        <span class="total-shopping-cart cart-total-full">
+                                                            <span class="items_cart">02</span><span class="items_cart2">
+                                                                item(s)</span><span class="items_carts"> - $162.00 </span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </a>
+        
+                                            <ul class="dropdown-menu pull-right shoppingcart-box" role="menu">
+                                                <li>
+                                                    <table class="table table-striped">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="text-center" style="width:70px">
+                                                                    <a href="product.html">
+                                                                        <img src="{% static 'image/catalog/demo/product/80/1.jpg' %}"
+                                                                            style="width:70px" alt="Yutculpa ullamcon"
+                                                                            title="Yutculpa ullamco" class="preview">
+                                                                    </a>
+                                                                </td>
+                                                                <td class="text-left"> <a class="cart_product_name"
+                                                                        href="product.html">Yutculpa ullamco</a>
+                                                                </td>
+                                                                <td class="text-center">x1</td>
+                                                                <td class="text-center">$80.00</td>
+                                                                <td class="text-right">
+                                                                    <a href="product.html" class="fa fa-edit"></a>
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    <a onclick="cart.remove('2');"
+                                                                        class="fa fa-times fa-delete"></a>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-center" style="width:70px">
+                                                                    <a href="product.html">
+                                                                        <img src="{% static 'image/catalog/demo/product/80/2.jpg' %}"
+                                                                            style="width:70px" alt="Xancetta bresao"
+                                                                            title="Xancetta bresao" class="preview">
+                                                                    </a>
+                                                                </td>
+                                                                <td class="text-left"> <a class="cart_product_name"
+                                                                        href="product.html">Xancetta bresao</a>
+                                                                </td>
+                                                                <td class="text-center">x1</td>
+                                                                <td class="text-center">$60.00</td>
+                                                                <td class="text-right">
+                                                                    <a href="product.html" class="fa fa-edit"></a>
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    <a onclick="cart.remove('1');"
+                                                                        class="fa fa-times fa-delete"></a>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </li>
+                                                <li>
+                                                    <div>
+                                                        <table class="table table-bordered">
+                                                            <tbody>
+                                                                
+                                                            </tbody>
+                                                        </table>
+                                                        <p class="text-right"> 
+                                                                <a class="btn view-cart" href="{% url 'auctions_history' %}">
+                                                                    <i class="fa fa-person"></i>My Auctions
+                                                                </a>&nbsp;&nbsp;&nbsp; 
+                                                                <a class="btn btn-mega checkout-cart"
+                                                                href="checkout.html">
+                                                                <i class="fa fa-share"></i>Checkout</a>
+                                                                <a class="btn btn-mega checkout-cart"
+                                                                href="{% url 'newproduct' %}"><i class="fa fa-plus"></i>new Product</a>
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+        
+                                    </div>
+                                    <!--//cart-->
+        
+        
+                                </div>
+        
+        
+                            </div>
+                        </div>
+        
+                    </div>
+        
+                </header>
+                <!-- //Header Container  -->
+
+    </div>
+    {% block Page %}
+            
+    {% endblock Page %}
+        
+    <footer class="footer-container typefooter-3">
+        <!-- Footer Top Container -->
+        <section class="footer-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                        <div class="logo-footer">
+                            <div class="logo"><a href="#">
+                                    <img src="{% static 'image/catalog/logo-footer2.png' %}" alt="image">
+                                </a></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 col-md-6 col-sm-9 col-xs-12 hidden-xs">
+                        <ul class="footer-links">
+           
+                        </ul>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 hidden-sm hidden-xs">
+                        <ul class="socials">
+                            <li class="facebook"><a class="_blank" href="https://www.facebook.com/MagenTech"
+                                    target="_blank"><i class="fa fa-facebook"></i></a>
+                            </li>
+                            <li class="twitter"><a class="_blank" href="https://twitter.com/smartaddons"
+                                    target="_blank"><i class="fa fa-twitter"></i></a>
+                            </li>
+                            <li class="google_plus"><a class="_blank"
+                                    href="https://plus.google.com/u/0/+Smartaddons/posts" target="_blank"><i
+                                        class="fa fa-google-plus"></i></a>
+                            </li>
+                            <li class="pinterest"><a class="_blank" href="https://www.pinterest.com/smartaddons/"
+                                    target="_blank"><i class="fa fa-pinterest"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /Footer Top Container -->
+
+
+
+        <!-- Footer Bottom Container -->
+
+        <!-- /Footer Bottom Container -->
+
+
+        <!--Back To Top-->
+        <div class="back-to-top"><i class="fa fa-angle-up"></i></div>
+    </footer>
+    <!-- Include Libs & Plugins
+============================================ -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="{% static 'js/jquery-2.2.4.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/owl-carousel/owl.carousel.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/themejs/libs.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/unveil/jquery.unveil.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/countdown/jquery.countdown.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/dcjqaccordion/jquery.dcjqaccordion.2.8.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/datetimepicker/moment.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/datetimepicker/bootstrap-datetimepicker.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery-ui/jquery-ui.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/modernizr/modernizr-2.6.2.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/minicolors/jquery.miniColors.min.js' %}"></script>
+
+<!-- Theme files
+============================================ -->
+
+<script type="text/javascript" src="{% static 'js/themejs/application.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'js/themejs/homepage.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'js/themejs/toppanel.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/themejs/so_megamenu.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/themejs/addtocart.js' %}"></script>
+
+</body>
+</html>
