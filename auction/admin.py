@@ -28,7 +28,7 @@ class AuctionRequestAdmin(admin.ModelAdmin):
     actions = ['approve_requests']
 
     def approve_requests(self, request, queryset):
-        print("approve_requests called")  # تأكيد استدعاء التابع
+
         for auction_request in queryset:
             if auction_request.is_approved != True:
                 auction_request.is_approved = True

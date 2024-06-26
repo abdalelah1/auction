@@ -79,8 +79,11 @@
             <p><i class="fas fa-chart-line"></i> Minimum Bid Increment: ${{ auction.minimum_bid_increment }}</p>
         </div>
         {% if user.is_authenticated %}
-        <a href="{% url 'auction' auction_id=auction.id %}" class="btn">Enter Auction</a>
-
+        {% if user == auction.product.user %}
+        <h3 style="color: red;">You cant access to the Auction Page because This prodcut owned by yourself</h3>
+        {%else%}
+        <a  href="{% url 'auction' auction_id=auction.id %}" class="btn">Enter Auction</a>
+        {% endif %}
         {% endif %}
     </div>
     <br>

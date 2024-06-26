@@ -35,11 +35,7 @@ class Product(models.Model):
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='product_images/')
-class Winner(models.Model):
-    auction = models.ForeignKey('Auction', on_delete=models.CASCADE)
-    customer = models.ForeignKey('Customer', on_delete=models.CASCADE)
-    winning_price = models.DecimalField(max_digits=10, decimal_places=2)
-    win_date = models.DateTimeField(default=timezone.now)
+
 
 def validate_future_date(value):
     if value.date() < timezone.now().date():
@@ -100,7 +96,7 @@ class AuctionRequest(models.Model):
     admin_message = models.CharField(max_length=255 ,null=True)
     is_approved = models.BooleanField(null=True)
 class Winner(models.Model):
-    auction = models.ForeignKey('Auction', on_delete=models.CASCADE)
+    auction = models.OneToOneField('Auction', on_delete=models.CASCADE)
     customer = models.ForeignKey('Customer', on_delete=models.CASCADE)
     winning_bid = models.DecimalField(max_digits=10, decimal_places=2)
     win_date = models.DateTimeField(default=timezone.now)

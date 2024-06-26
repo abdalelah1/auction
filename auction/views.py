@@ -239,11 +239,16 @@ def auctions_by_customer(request):
     return render(request, 'auction_search_results/auction_search_results.html', {'auctions': active_auctions_by_customers})
 def auctions_history(request):
     user = request.user
+    customer=user.customer
     auctions = Auction.objects.filter(product__user=user).order_by('-created_at')
+    winner= Winner.objects.filter(customer=customer )
+    print(winner)
     context = {
-        'auctions': auctions
+        'auctions': auctions,
+        'winner':winner
+     # تمرير قاموس الفائزين إلى القالب
     }
-    return render(request, 'auction_history/auction_history.html',context)
+    return render(request, 'auction_history/auction_history.html', context)
 
 def save_winner_for_auction(auction_id):
     print('save_winner_for_auction')
