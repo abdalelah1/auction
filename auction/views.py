@@ -115,7 +115,7 @@ def logout_view(request):
 def auction_details(request, auction):
     get_auction = Auction.objects.get(id=auction)
     context={
-         'auction':get_auction
+         'auction':get_auction,
     }
     return render(request,'auction_details/auction_details.html',context)
 @csrf_exempt  
@@ -124,7 +124,6 @@ def auction_search(request):
         auction_name = request.POST['search']
         # ابحث عن المزاد باستخدام الجزء من اسمه ورتب النتائج حسب الاحدث
         auctions = Auction.objects.filter(product__name__icontains=auction_name,auction_status=True).order_by('-auction_start_date')
-        print(auctions)
         return render(request, 'auction_search_results/auction_search_results.html', {'auctions': auctions})
     else:
         return redirect('Home') 
@@ -138,7 +137,8 @@ def calc_highest_price(auction_id):
         auction.save()
         return float(highest_bid)
     return None
-def auction_page(request,auction_id):
+
+def auction_page(request,auction_id): 
     auction = Auction.objects.get(id=auction_id )
     print(auction.auction_end_date)
     context={
@@ -245,3 +245,35 @@ def auctions_history(request):
     }
     return render(request, 'auction_history/auction_history.html',context)
 
+def save_winner_for_auction(auction_id):
+    print('save_winner_for_auction')
+    try:
+        print(' try save_winner_for_auction')
+        # الحصول على المزاد
+        auction = Auction.objects.get(pk=auction_id)
+
+        # الحصول على أعلى مزايدة
+        highest_bid = Bid.objects.filter(auction=auction).order_by('-bid_amount').first()
+        print('highest_bid', highest_bid)
+        if highest_bid:
+            # التحقق إذا كان هناك سجل فائز بنفس الفائز ونفس المزاد
+            existing_winner = Winner.objects.filter(auction=auction, customer=highest_bid.customer).first()
+            if existing_winner:
+                existing_winner.delete()
+                print("Existing winner record deleted.")
+
+            # إنشاء وحفظ الفائز في جدول الفائزين
+            winner = Winner(
+                auction=auction,
+                customer=highest_bid.customer,
+                winning_bid=highest_bid.bid_amount,
+                win_date=timezone.now()
+            )
+            winner.save()
+
+            print("Winner saved successfully.")
+        else:
+            print("No bids found for this auction.")
+
+    except Auction.DoesNotExist:
+        return {"success": False, "message": "Auction not found."}

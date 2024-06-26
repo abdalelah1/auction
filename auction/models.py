@@ -2,7 +2,10 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-
+from django.utils import timezone
+from django_celery_beat.models import PeriodicTask, CrontabSchedule
+import json
+import datetime
 
 class Customer(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
@@ -33,7 +36,7 @@ class ProductImage(models.Model):
     product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='product_images/')
 class Winner(models.Model):
-    product = models.ForeignKey('Product', on_delete=models.CASCADE)
+    auction = models.ForeignKey('Auction', on_delete=models.CASCADE)
     customer = models.ForeignKey('Customer', on_delete=models.CASCADE)
     winning_price = models.DecimalField(max_digits=10, decimal_places=2)
     win_date = models.DateTimeField(default=timezone.now)
@@ -57,6 +60,32 @@ class Auction(models.Model):
     
     def __str__(self):
         return str(self.id)
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.schedule_end_auction_task()
+
+    def schedule_end_auction_task(self):
+        from .tasks import end_auction_task
+        from django_celery_beat.models import PeriodicTask, ClockedSchedule
+
+        # إزالة المهام السابقة إذا كانت موجودة
+        PeriodicTask.objects.filter(name=f'end-auction-task-{self.id}').delete()
+
+        # إنشاء جدول زمنية جديد
+        clocked_time = self.auction_end_date
+
+        clocked_schedule, created = ClockedSchedule.objects.get_or_create(clocked_time=clocked_time)
+
+        # إنشاء المهمة المجدولة
+        PeriodicTask.objects.create(
+            clocked=clocked_schedule,
+            name=f'end-auction-task-{self.id}',
+            task='auction.tasks.end_auction_task',
+            args=json.dumps([self.id]),
+            one_off=True
+        )
+        print('created success')
+
 class Bid(models.Model):
     auction = models.ForeignKey(Auction, related_name='bids', on_delete=models.CASCADE)
     customer = models.ForeignKey(Customer, related_name='bids', on_delete=models.CASCADE)
@@ -70,3 +99,8 @@ class AuctionRequest(models.Model):
     request_date = models.DateTimeField(auto_now_add=True)
     admin_message = models.CharField(max_length=255 ,null=True)
     is_approved = models.BooleanField(null=True)
+class Winner(models.Model):
+    auction = models.ForeignKey('Auction', on_delete=models.CASCADE)
+    customer = models.ForeignKey('Customer', on_delete=models.CASCADE)
+    winning_bid = models.DecimalField(max_digits=10, decimal_places=2)
+    win_date = models.DateTimeField(default=timezone.now)

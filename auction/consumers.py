@@ -13,7 +13,7 @@ from auction.views import calc_highest_price
 
 class AuctionConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        self.auction_id = self.scope['url_route']['kwargs']['auction_id']
+        self.auction_id = self.scope['url_route']['kwargs']['auction_id'] 
         self.auction_group_name = f'auction_{self.auction_id}'
 
         await self.channel_layer.group_add(

@@ -78,7 +78,10 @@
             <p><i class="fas fa-info-circle"></i> Status: {% if auction.auction_status %}Active{% else %}Inactive{% endif %}</p>
             <p><i class="fas fa-chart-line"></i> Minimum Bid Increment: ${{ auction.minimum_bid_increment }}</p>
         </div>
+        {% if user.is_authenticated %}
         <a href="{% url 'auction' auction_id=auction.id %}" class="btn">Enter Auction</a>
+
+        {% endif %}
     </div>
     <br>
     <br>    

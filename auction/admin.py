@@ -1,7 +1,8 @@
 from django.contrib import admin
+from django.contrib.auth.models import Group
+
 from .models import *
 # Register your models here.
-admin.site.register(Customer)
 
 admin.site.register(Category)
 class ProductImageInline(admin.TabularInline):  # أو admin.StackedInline حسب التصميم المطلوب
@@ -11,6 +12,7 @@ class ProductImageInline(admin.TabularInline):  # أو admin.StackedInline حس�
 class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImageInline]
 
+
 admin.site.register(Product, ProductAdmin)
 class AuctionAdmin(admin.ModelAdmin):
     list_display = ['product', 'auction_start_date', 'auction_end_date', 'current_price', 'auction_status', 'minimum_bid_increment']
@@ -18,8 +20,6 @@ class AuctionAdmin(admin.ModelAdmin):
     ordering = ['-auction_start_date']  # ترتيب السجلات حسب الاقدمية
 
 admin.site.register(Auction, AuctionAdmin)
-admin.site.register(Bid)
-
 class AuctionRequestAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'request_date', 'admin_message', 'is_approved', 'Auction')
     list_filter = ('is_approved', 'request_date')
@@ -46,3 +46,26 @@ class AuctionRequestAdmin(admin.ModelAdmin):
     approve_requests.short_description = 'Approve selected requests and activate corresponding auctions'
 
 admin.site.register(AuctionRequest, AuctionRequestAdmin)
+admin.site.unregister(Group)
+
+class WinnerAdmin(admin.ModelAdmin):
+    list_display = ('auction', 'get_customer_name', 'get_customer_email', 'get_customer_phone_number', 'winning_bid', 'win_date')
+
+    def get_customer_name(self, obj):
+        return f"{obj.customer.first_name} {obj.customer.last_name}"
+    get_customer_name.short_description = 'Customer Name'
+
+    def get_customer_email(self, obj):
+        return obj.customer.email
+    get_customer_email.short_description = 'Customer Email'
+
+    def get_customer_phone_number(self, obj):
+        return obj.customer.phone_number
+    get_customer_phone_number.short_description = 'Customer Phone Number'
+
+
+admin.site.register(Winner,WinnerAdmin)
+class CustoemrAdmin(admin.ModelAdmin):
+    list_display=('id','first_name','last_name','email','phone_number','address')
+admin.site.register(Customer,CustoemrAdmin)
+admin.site.register(Bid)
